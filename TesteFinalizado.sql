@@ -116,11 +116,15 @@ INSERT INTO ITENS_PEDIDO (id_pedido, id_produto, preco_praticado, quantidade) VA
 
 -- DESAFIO 1
 
-SELECT id_vendedor AS id, nome, salario FROM VENDEDORES WHERE inativo = 'FALSE' ORDER BY nome ASC;
+SELECT id_vendedor AS id, nome, salario 
+FROM VENDEDORES WHERE inativo = 'FALSE' 
+ORDER BY nome ASC
 
 -- DESAFIO 2 
 
-SELECT id_vendedor AS id, nome, salario FROM VENDEDORES WHERE salario > ( SELECT AVG(salario) FROM Vendedores) ORDER BY salario DESC;
+SELECT id_vendedor AS id, nome, salario 
+FROM VENDEDORES WHERE salario > ( SELECT AVG(salario) FROM Vendedores) 
+ORDER BY salario DESC
 
 -- DESAFIO 3 
 
@@ -128,13 +132,13 @@ SELECT CLIENTES.id_cliente AS id, CLIENTES.razao_social, COALESCE(SUM(PEDIDO.val
 FROM CLIENTES
 LEFT JOIN PEDIDO ON CLIENTES.id_cliente = PEDIDO.id_cliente
 GROUP BY CLIENTES.id_cliente, CLIENTES.razao_social
-ORDER BY total DESC;
+ORDER BY total DESC
    
 -- DESAFIO 4
 
 SELECT id_pedido AS id, valor_total AS valor, data_emissao AS data, CASE WHEN data_cancelamento IS NOT NULL THEN 'CANCELADO' -- data é uma palavra reservada, porém irei seguir a risca as instruçoes passadas.
-	WHEN data_faturamento IS NOT NULL THEN 'FATURADO'
-	ELSE 'PENDENTE' END AS situacao FROM Pedido;
+WHEN data_faturamento IS NOT NULL THEN 'FATURADO'
+ELSE 'PENDENTE' END AS situacao FROM Pedido
     
 -- DESAFIO 5
 
@@ -144,5 +148,6 @@ FROM Itens_Pedido
     JOIN Produtos ON Itens_Pedido.id_produto = Produtos.id_produto
     JOIN Pedido ON Itens_Pedido.id_pedido = Pedido.id_pedido
     JOIN Clientes ON Pedido.id_cliente = Clientes.id_cliente
-	GROUP BY Produtos.id_produto ORDER BY total_vendido DESC
-    LIMIT 1;
+GROUP BY Produtos.id_produto 
+ORDER BY quantidade_vendida DESC, total_vendido DESC
+LIMIT 1
